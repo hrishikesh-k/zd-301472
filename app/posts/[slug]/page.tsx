@@ -3,12 +3,22 @@ export default async function(props: {
     slug: string
   }
 }) {
-  await fetch('https://www.netlify.com/', {
+  const data = await fetch('https://api.vercel.app/blog', {
     next: {
-      tags: ['posts']
+      tags: [
+        'posts'
+      ]
     }
   })
+  const posts = await data.json()
   return (
-    <h1>{props.params.slug}</h1>
+    <>
+      <h1>{props.params.slug}</h1>
+      <ul>
+        {posts.map(p => (
+          <li key={p.id}>{p.title}</li>
+        ))}
+      </ul>
+    </>
   )
 }
